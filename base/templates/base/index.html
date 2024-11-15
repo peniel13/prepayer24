@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Accueil - Plateforme de Paiement en Ligne{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <!-- Hero Section -->
+<header class="relative bg-gradient-to-r from-gray-900 to-gray-700 h-screen flex items-center" style="background-image: url('{% static 'img/hero1.jpg' %}'); background-size: cover;">
+    <div class="absolute inset-0 opacity-50 bg-black"></div>
+    <div class="relative z-10 max-w-4xl mx-auto text-center text-white">
+        <h1 class="text-5xl font-extrabold mb-4">
+            Bienvenue sur la plateforme de paiement en ligne des stations électriques prépayées à Kinshasa. 
+        </h1>
+        <p class="text-lg mb-6">
+            Fini les files d'attente! Gagnez du temps, payez facilement, sans stress. Découvrez la simplicité de PrePay!
+        </p>
+        <p class="text-md mb-6">
+            Payez de manière rapide et sécurisée grâce à notre plateforme innovante.
+        </p>
+        <div class="mt-6">
+            <a href="{% url 'station_list' %}" class="bg-indigo-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                Commencer maintenant
+            </a>
+        </div>
+    </div>
+</header>
+<div class="mb-6 text-center">
+    <h1 class="text-3xl font-extrabold text-indigo-600">Trouvez votre station électrique prépayée</h1>
+    <p class="text-lg text-gray-700 mt-2">Recherchez et découvrez les stations électriques prépayées à Kinshasa.</p>
+</div>
+    <!-- Search Bar -->
+    <div class="mt-8 text-center">
+        <form method="GET" action="{% url 'index' %}">
+            <input type="text" name="q" value="{{ query }}" placeholder="Rechercher une station..." class="px-4 py-2 border border-gray-300 rounded-lg">
+            <button type="submit" class="bg-indigo-600 text-white py-2 px-6 rounded-lg ml-2 hover:bg-indigo-700 transition duration-300">Rechercher</button>
+        </form>
+    </div>
+
+    <!-- Station List -->
+    <section class="my-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Nos Stations</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for station in stations %}
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="{{ station.image.url }}" alt="{{ station.nom }}" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-indigo-600">{{ station.nom }}</h3>
+                        <p class="text-sm text-gray-600">Commune : {{ station.commune }}</p>
+                        <p class="text-sm text-gray-600">Quartier : {{ station.quartier }}</p>
+                        <p class="text-sm text-gray-500">{{ station.description|truncatewords:20 }}</p>
+                        <a href="{% url 'station_detail' station.slug %}" class="text-indigo-600 hover:text-indigo-800">Voir plus</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-center text-gray-500">Aucune station trouvée pour votre recherche.</p>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-12">
+                <!-- Text Section -->
+                <div class="lg:w-1/2 text-center lg:text-left order-2 lg:order-1">
+                    <h2 class="text-3xl font-extrabold text-indigo-600 mb-4">
+                        À propos de nous
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-6">
+                        PrePay est une plateforme innovante qui facilite le paiement en ligne pour le réabonnement aux stations électriques à Kinshasa. Nous permettons à nos utilisateurs de gérer facilement leurs paiements depuis n'importe où, à tout moment, sans avoir à se déplacer.
+                    </p>
+                    <h3 class="text-2xl font-semibold text-indigo-600 mb-4">
+                        Nos Avantages
+                    </h3>
+                    <ul class="space-y-4 text-lg text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Gain de temps : Plus besoin de faire la queue dans les stations électriques.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Simplicité d'utilisation : Interface claire et facile à naviguer.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Accessibilité : Payez de n'importe où, à n'importe quel moment.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Sécurité : Vos paiements sont 100% sécurisés grâce à des technologies de cryptage avancées.
+                        </li>
+                    </ul>
+                </div>
+    
+                <!-- Image Section -->
+                <div class="lg:w-1/2 order-1 lg:order-2">
+                    <img src="{% static 'img/logo.jpg' %}" alt="À propos de PrePay" class="w-full h-auto object-cover rounded-lg shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <!-- Text Section -->
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <h2 class="text-3xl font-extrabold text-indigo-600 mb-4">
+                        Contactez-nous
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-6">
+                        Vous avez une question ou souhaitez en savoir plus ? Utilisez ce formulaire pour nous contacter, et nous vous répondrons dans les plus brefs délais. 
+                    </p>
+                    <p class="text-lg text-gray-700">
+                        Nous sommes là pour vous aider à chaque étape !
+                    </p>
+                </div>
+
+                <!-- Form Section -->
+                <div class="lg:w-1/2 w-full bg-white p-6 rounded-lg shadow-lg">
+                    <form method="POST" action="{% url 'contact' %}" class="space-y-6">
+                        {% csrf_token %}
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
+                            <input type="text" id="name" name="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" name="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="number" class="block text-sm font-medium text-gray-700">Numéro de téléphone</label>
+                            <input type="text" id="number" name="number" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="content" class="block text-sm font-medium text-gray-700">Message</label>
+                            <textarea id="content" name="content" rows="4" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            Envoyer votre message
+                        </button>
+                    </form>
+
+                    <!-- Messages d'erreur/succès -->
+                    {% if messages %}
+                        <div class="mt-4">
+                            {% for message in messages %}
+                                <div class="text-sm {% if message.tags == 'error' %}text-red-600{% else %}text-green-600{% endif %}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

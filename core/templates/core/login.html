@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Se connecter - Mon Site{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-indigo-600 mb-6">Se connecter</h2>
+
+        <!-- Affichage des messages d'erreur -->
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="bg-red-100 text-red-800 p-4 rounded mb-2">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Formulaire de connexion -->
+        <form method="POST" action="{% url 'signin' %}" class="space-y-6">
+            {% csrf_token %}
+            
+            <div>
+                <label for="email" class="block text-sm font-semibold text-gray-700">Adresse email</label>
+                <input type="email" name="email" id="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Votre adresse email" required>
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-semibold text-gray-700">Mot de passe</label>
+                <input type="password" name="password" id="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Votre mot de passe" required>
+            </div>
+
+            <div class="mt-6">
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Se connecter
+                </button>
+            </div>
+        </form>
+
+        <!-- Lien vers la page d'inscription si l'utilisateur n'a pas de compte -->
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-600">Pas encore de compte ? <a href="{% url 'signup' %}" class="text-indigo-600 hover:text-indigo-500">S'inscrire</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

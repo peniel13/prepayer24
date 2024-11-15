@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Modifier Mon Profil{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="flex justify-center items-center min-h-screen bg-gray-100 py-8">
+    <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-indigo-600 mb-6">Modifier Mon Profil</h2>
+
+        <!-- Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="space-y-6">
+                <!-- First Name -->
+                <div>
+                    <label for="first_name" class="block text-sm font-medium text-gray-700">Prénom</label>
+                    {{ form.first_name|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Last Name -->
+                <div>
+                    <label for="last_name" class="block text-sm font-medium text-gray-700">Nom</label>
+                    {{ form.last_name|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+                    {{ form.username|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    {{ form.email|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Profile Picture -->
+                <div>
+                    <label for="profile_pic" class="block text-sm font-medium text-gray-700">Photo de profil</label>
+                    {{ form.profile_pic|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Address -->
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700">Adresse</label>
+                    {{ form.address|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Phone -->
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700">Téléphone</label>
+                    {{ form.phone|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Bio -->
+                <div>
+                    <label for="bio" class="block text-sm font-medium text-gray-700">Biographie</label>
+                    {{ form.bio|add_class:"form-textarea mt-2 w-full" }}
+                </div>
+
+                <!-- Role -->
+                <div>
+                    <label for="role" class="block text-sm font-medium text-gray-700">Rôle</label>
+                    {{ form.role|add_class:"form-input mt-2 w-full" }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mt-6 text-center">
+                    <button type="submit" class="bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Mettre à jour
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Success Message -->
+        {% if messages %}
+            <div class="mt-4">
+                {% for message in messages %}
+                    <div class="bg-green-500 text-white p-3 rounded-md">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Paiements pour la Station - {{ station.nom }}{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-indigo-600">{{ station.nom }}</h1>
+
+        {% if messages %}
+        <div class="flex justify-center mb-4">
+            <div class="w-full max-w-lg p-4 text-center rounded-lg 
+                        {% if messages.0.tags == 'success' %}bg-green-500 text-white{% elif messages.0.tags == 'error' %}bg-red-500 text-white{% else %}bg-yellow-500 text-white{% endif %}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Formulaire de recherche par date -->
+        <form method="get" action="{% url 'station_payments' slug=station.slug %}" class="mb-6">
+            <div class="flex items-center space-x-4">
+                <input type="date" name="search_date" class="p-3 border border-gray-300 rounded-lg w-64" value="{{ search_date|default_if_none:'' }}">
+                <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700">
+                    Rechercher
+                </button>
+            </div>
+        </form>
+
+        <!-- Affichage des paiements par date sous forme de cartes -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for payment_date in payments_by_date %}
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg cursor-pointer">
+                    <a href="{% url 'payments_by_date' slug=station.slug payment_date=payment_date.payment_date %}">
+                        <h3 class="text-xl font-semibold text-indigo-600">Paiements du {{ payment_date.payment_date }}</h3>
+                    </a>
+                </div>
+            {% empty %}
+                <p>Aucun paiement trouvé pour cette station.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

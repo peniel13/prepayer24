@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon Profil - {{ user.username }}{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-indigo-600 mb-6">Mon Profil</h2>
+
+        <!-- Profile Details -->
+        <div class="flex flex-col sm:flex-row justify-between items-center space-y-6 sm:space-y-0 sm:space-x-8">
+            <!-- Profil Picture -->
+            <div class="flex-shrink-0">
+                <!-- Si pas d'image de profil, afficher l'image par défaut -->
+                {% if user.profile_pic %}
+                    <img src="{{ user.profile_pic.url }}" alt="Photo de Profil" class="w-32 h-32 rounded-full object-cover shadow-md">
+                {% else %}
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Photo de Profil" class="w-32 h-32 rounded-full object-cover shadow-md">
+                {% endif %}
+            </div>
+
+            <!-- User Info -->
+            <div class="text-center sm:text-left">
+                <h3 class="text-xl font-semibold text-gray-800">{{ user.username }}</h3>
+                <p class="text-gray-600">{{ user.email }}</p>
+                <p class="text-gray-600 mt-2">{{ user.phone }}</p>
+                <p class="text-gray-600 mt-2">{{ user.address }}</p>
+            </div>
+        </div>
+
+        <div class="mt-6 space-y-6">
+            <!-- Bio -->
+            <div>
+                <h4 class="text-lg font-semibold text-gray-800">Biographie</h4>
+                <p class="text-gray-600">{{ user.bio|default:"Pas de biographie définie" }}</p>
+            </div>
+
+            <!-- User Role -->
+            <div>
+                <h4 class="text-lg font-semibold text-gray-800">Rôle</h4>
+                <p class="text-gray-600">{{ user.role|default:"Non défini" }}</p>
+            </div>
+
+            <!-- Edit Profile Button (if needed) -->
+            <div class="mt-6 text-center">
+                <a href="{% url 'update_profile' %}" class="bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Modifier mon profil
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Historique des paiements dans un grand card -->
+<div class="container mx-auto p-6">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-indigo-600 mb-6">Historique des Paiements</h2>
+
+        <!-- Barre de Recherche -->
+        <div class="mb-6 flex justify-between items-center">
+            <div class="w-full max-w-xs">
+                <label for="search_date" class="block text-sm font-semibold text-gray-600">Rechercher par date</label>
+                <input type="date" id="search_date" class="mt-2 w-full p-3 border border-gray-300 rounded-lg" placeholder="Rechercher par date">
+            </div>
+            <button class="ml-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700" onclick="searchPayments()">Rechercher</button>
+        </div>
+
+        <!-- Liste des Paiements -->
+        <div class="space-y-4">
+            {% if payments %}
+                {% for payment in payments %}
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <p class="text-lg font-semibold">Montant: {{ payment.montant }} FC</p>
+                        <p class="text-sm text-gray-600">Numéro de transfert: {{ payment.numero_transfert }}</p>
+                        <p class="text-sm text-gray-600">Date du paiement: {{ payment.created_at|date:"d M Y" }}</p>
+                        <p class="text-sm {% if payment.payement_valide %}text-green-600{% else %}text-red-600{% endif %}">
+                            Status: {% if payment.payement_valide %}Validé{% else %}Non Validé{% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-gray-600">Aucun paiement trouvé pour cette date.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+    // Fonction de recherche (pouvant être améliorée selon les besoins)
+    function searchPayments() {
+        const searchDate = document.getElementById('search_date').value;
+        window.location.href = "{% url 'profile' %}?search_date=" + searchDate;
+    }
+</script>

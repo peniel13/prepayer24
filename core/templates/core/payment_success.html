@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Paiement Réussi - {{ payment.cart.station_prepay.nom }}{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto px-4 py-6">
+        <!-- Message de succès -->
+        <div class="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-6">
+            <h2 class="text-2xl font-bold">Paiement Réussi !</h2>
+            <p class="mt-2">Félicitations, votre paiement a été effectué avec succès.</p>
+        </div>
+
+        <!-- Détails du paiement -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Détails du Paiement</h3>
+            
+            <div class="space-y-4">
+                <p><strong>Nom du client :</strong> {{ payment.nom }} {{ payment.prenom }} {{ payment.postnom }}</p>
+                <p><strong>Station :</strong> {{ payment.cart.station_prepay.nom }}</p>
+                <p><strong>Montant :</strong> {{ payment.cart.montant }} {{ payment.cart.station_prepay.commune }}</p>
+                <p><strong>Commission :</strong> {{ payment.cart.commission }}</p>
+                <p><strong>Total :</strong> {{ payment.cart.total }}</p>
+
+                <h4 class="mt-4 text-lg font-semibold">Informations de Paiement :</h4>
+                <p><strong>Numéro Identifiant :</strong> {{ payment.numero_identifiant }}</p>
+                <p><strong>Numéro ID :</strong> {{ payment.numero_id }}</p>
+                <p><strong>Numéro de Transfert :</strong> {{ payment.numero_transfert }}</p>
+
+                <p class="mt-6"><strong>Status du paiement :</strong> 
+                    {% if payment.payement_valide %}
+                        <span class="text-green-500 font-semibold">Validé</span>
+                    {% else %}
+                        <span class="text-red-500 font-semibold">Non Validé (en attente de confirmation)</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Option de retour à l'accueil ou autre page -->
+        <div class="mt-6 text-center">
+            <a href="{% url 'index' %}" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">Retour à l'accueil</a>
+        </div>
+    </div>
+{% endblock %}

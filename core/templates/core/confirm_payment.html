@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmation du Paiement{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-indigo-600 mb-6">Confirmation du Paiement</h1>
+
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Détails du Paiement</h2>
+            <p><strong>Nom du Client :</strong> {{ payment.nom }} {{ payment.prenom }}</p>
+            <p><strong>Montant :</strong> {{ payment.montant_a_payer }}</p>
+            <p><strong>Statut :</strong> {{ payment.get_status_display }}</p>
+            <p><strong>Identifiant Client :</strong> {{ payment.identifiant_client }}</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Vérification du Paiement</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded mt-4 hover:bg-indigo-700">
+                    Confirmer le Paiement
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}S'inscrire - Mon Site{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-indigo-600 mb-6">Créer un compte</h2>
+
+        <!-- Affichage des messages d'info et d'erreur -->
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="bg-green-100 text-green-800 p-4 rounded mb-2">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Formulaire d'inscription -->
+        <form method="POST" action="{% url 'station_detail' slug=station.slug %}" class="space-y-6">
+            {% csrf_token %}
+        
+            <!-- Nom -->
+            <div>
+                <label for="id_nom" class="block text-sm font-semibold text-gray-700">Nom</label>
+                <input type="text" name="nom" id="id_nom" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Votre nom" value="{{ form.nom.value }}" required>
+                {% if form.nom.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.nom.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        
+            <!-- Postnom -->
+            <div>
+                <label for="id_postnom" class="block text-sm font-semibold text-gray-700">Postnom</label>
+                <input type="text" name="postnom" id="id_postnom" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Votre postnom" value="{{ form.postnom.value }}" required>
+                {% if form.postnom.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.postnom.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        
+            <!-- Prénom -->
+            <div>
+                <label for="id_prenom" class="block text-sm font-semibold text-gray-700">Prénom</label>
+                <input type="text" name="prenom" id="id_prenom" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Votre prénom" value="{{ form.prenom.value }}" required>
+                {% if form.prenom.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.prenom.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        
+            <!-- Identifiant Client -->
+            <div>
+                <label for="id_identifiant_client" class="block text-sm font-semibold text-gray-700">Identifiant Client</label>
+                <input type="text" name="identifiant_client" id="id_identifiant_client" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Identifiant client" value="{{ form.identifiant_client.value }}" required>
+                {% if form.identifiant_client.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.identifiant_client.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        
+            <!-- Montant à Payer -->
+            <div>
+                <label for="id_montant_a_payer" class="block text-sm font-semibold text-gray-700">Montant à payer</label>
+                <select name="montant_a_payer" id="id_montant_a_payer" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                    {% for choice in form.montant_a_payer.field.choices %}
+                        <option value="{{ choice.0 }}" {% if choice.0 == form.montant_a_payer.value %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+                {% if form.montant_a_payer.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.montant_a_payer.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        
+            <!-- ID Transaction -->
+            <div>
+                <label for="id_id_transaction" class="block text-sm font-semibold text-gray-700">ID de la Transaction</label>
+                <input type="text" name="id_transaction" id="id_id_transaction" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="ID de la transaction" value="{{ form.id_transaction.value }}" required>
+                {% if form.id_transaction.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.id_transaction.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        
+            <!-- Numéro de Opérant -->
+            <div>
+                <label for="id_numero_operant" class="block text-sm font-semibold text-gray-700">Numéro de Opérant</label>
+                <input type="text" name="numero_operant" id="id_numero_operant" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Numéro de opérant" value="{{ form.numero_operant.value }}" required>
+                {% if form.numero_operant.errors %}
+                    <div class="text-red-500 text-sm mt-2">
+                        {% for error in form.numero_operant.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        
+            <!-- Soumettre le Paiement -->
+            <div class="mt-6">
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Soumettre le Paiement
+                </button>
+            </div>
+        </form>
+        
+
+        <!-- Lien vers la page de connexion si l'utilisateur a déjà un compte -->
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-600">Déjà un compte ? <a href="{% url 'signin' %}" class="text-indigo-600 hover:text-indigo-500">Se connecter</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

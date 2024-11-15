@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}À propos - Plateforme de Paiement en Ligne{% endblock %}
+
+{% block content %}
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-12">
+                <!-- Text Section -->
+                <div class="lg:w-1/2 text-center lg:text-left order-2 lg:order-1">
+                    <h2 class="text-3xl font-extrabold text-indigo-600 mb-4">
+                        À propos de nous
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-6">
+                        PrePay est une plateforme innovante qui facilite le paiement en ligne pour le réabonnement aux stations électriques à Kinshasa. Nous permettons à nos utilisateurs de gérer facilement leurs paiements depuis n'importe où, à tout moment, sans avoir à se déplacer.
+                    </p>
+                    <h3 class="text-2xl font-semibold text-indigo-600 mb-4">
+                        Nos Avantages
+                    </h3>
+                    <ul class="space-y-4 text-lg text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Gain de temps : Plus besoin de faire la queue dans les stations électriques.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Simplicité d'utilisation : Interface claire et facile à naviguer.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Accessibilité : Payez de n'importe où, à n'importe quel moment.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-indigo-600 mr-2">✔</span> Sécurité : Vos paiements sont 100% sécurisés grâce à des technologies de cryptage avancées.
+                        </li>
+                    </ul>
+                </div>
+    
+                <!-- Image Section -->
+                <div class="lg:w-1/2 order-1 lg:order-2">
+                    <img src="{% static 'img/logo.jpg' %}" alt="À propos de PrePay" class="w-full h-auto object-cover rounded-lg shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Stations{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto p-6">
+        <!-- En-tête avec texte -->
+        <div class="mb-6 text-center">
+            <h1 class="text-3xl font-extrabold text-indigo-600">Trouvez votre station électrique prépayée</h1>
+            <p class="text-lg text-gray-700 mt-2">Recherchez et découvrez les stations électriques prépayées à Kinshasa.</p>
+        </div>
+
+        <!-- Barre de recherche -->
+        <div class="mb-6 flex items-center justify-between">
+            <form method="GET" action="{% url 'station_list' %}" class="flex space-x-4 w-full max-w-4xl mx-auto">
+                <input 
+                    type="text" 
+                    name="q" 
+                    value="{{ query }}" 
+                    placeholder="Rechercher une station..." 
+                    class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+                />
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none">
+                    Rechercher
+                </button>
+            </form>
+        </div>
+
+        <!-- Liste des stations -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for station in stations %}
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        {% if station.image %}
+                            <img src="{{ station.image.url }}" alt="{{ station.nom }}" class="w-full h-48 object-cover rounded-md mb-4">
+                        {% else %}
+                            <div class="w-full h-48 bg-gray-200 rounded-md mb-4"></div>
+                        {% endif %}
+                        <h2 class="text-xl font-semibold text-indigo-600">{{ station.nom }}</h2>
+                        <p class="text-gray-600 mt-2"><strong>Commune:</strong> {{ station.commune }}</p>
+                        <p class="text-gray-600"><strong>Quartier:</strong> {{ station.quartier }}</p>
+                        <p class="text-gray-600 mt-2">{{ station.description|truncatewords:15 }}</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 text-center">
+                        <a href="{% url 'station_detail' station.slug %}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Voir les détails</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Aucune station trouvée pour cette recherche.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

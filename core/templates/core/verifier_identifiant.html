@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Vérification de l'identifiant - {{ station.nom }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-indigo-600 mb-6">Vérifiez votre identifiant pour la station {{ station.nom }}</h1>
+
+   
+
+    <!-- Formulaire de recherche de l'identifiant -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-indigo-600">Entrez votre identifiant</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="identifiant" class="block text-lg text-gray-700 mt-4">Identifiant :</label>
+            <input type="text" name="identifiant" id="identifiant" class="mt-2 p-3 w-full border border-gray-300 rounded-lg" required placeholder="Entrez votre identifiant">
+
+            <button type="submit" class="mt-4 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700">Vérifier</button>
+        </form>
+    </div>
+
+    {% if client %}
+        <!-- Afficher les informations du client si l'identifiant existe -->
+        <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+            <h3 class="text-2xl font-semibold text-indigo-600 mb-4">Informations du Client</h3>
+            <p><strong>Nom :</strong> {{ client.nom }}</p>
+            <p><strong>Prénom :</strong> {{ client.prenom }}</p>
+            <p><strong>Postnom :</strong> {{ client.postnom }}</p>
+            <p><strong>Commune :</strong> {{ client.commune }}</p>
+            <p><strong>Avenue :</strong> {{ client.avenue }}</p>
+            <p><strong>Numéro de Parcelle :</strong> {{ client.numparcel }}</p>
+            <p><strong>Identifiant :</strong> {{ client.identifiant }}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

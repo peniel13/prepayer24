@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Détail de la Station - {{ station.nom }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <!-- Détails de la Station -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-indigo-600">{{ station.nom }}</h1>
+        <p class="text-lg text-gray-700">Commune : {{ station.commune }}</p>
+        <p class="text-lg text-gray-700">Quartier : {{ station.quartier }}</p>
+        <p class="text-sm text-gray-500">Slug : {{ station.slug }}</p>
+
+        <!-- Affichage de l'image de la station -->
+        {% if station.image %}
+            <div class="mt-6">
+                <img src="{{ station.image.url }}" alt="{{ station.nom }}" class="w-full h-64 object-cover rounded-lg shadow-md">
+            </div>
+        {% else %}
+            <div class="mt-6 bg-gray-200 w-full h-64 rounded-lg shadow-md">
+                <p class="text-center text-gray-500 p-24">Image non disponible</p>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if messages %}
+        <div class="flex justify-center mb-4">
+            <div class="w-full max-w-lg p-4 text-center rounded-lg 
+                        {% if messages.0.tags == 'success' %} 
+                            bg-green-500 text-white 
+                        {% elif messages.0.tags == 'error' %} 
+                            bg-red-500 text-white 
+                        {% else %}
+                            bg-yellow-500 text-white
+                        {% endif %}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Voir les paiements -->
+    <div class="my-6">
+        <a href="{% url 'station_payments' slug=station.slug %}" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700">
+            Voir les paiements
+        </a>
+    </div>
+    <div class="my-6">
+        <a href="{% url 'verifier_identifiant' slug=station.slug %}" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700">
+            Vérifier votre identifiant pour cette station
+        </a>
+    </div>
+    <!-- Formulaire pour ajouter au panier -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-2xl font-semibold text-indigo-600">Faites votre paiement</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Montant -->
+            <label for="montant" class="block text-lg text-gray-700 mt-4">Montant :</label>
+            <input type="number" name="montant" id="montant" class="mt-2 p-3 w-full border border-gray-300 rounded-lg" required step="0.01" min="0">
+
+            <!-- Commission (4000 par défaut) -->
+            <input type="hidden" id="commission" value="4000">
+            
+            <!-- Affichage de la commission et du total -->
+            <div class="mt-4">
+                <p class="text-lg text-gray-700">Frais de service site: <span id="commission-amount">4000</span> Fc</p>
+                <p class="text-lg text-gray-700">Total: <span id="total-amount">0</span> Fc</p>
+            </div>
+
+            <button type="submit" class="mt-4 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700">Poursuiver la paye</button>
+        </form>
+
+        {% if error_message %}
+            <p class="text-red-600 mt-4">{{ error_message }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Liste des Communications -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Communications</h2>
+        <div class="space-y-6">
+            {% for communication in communications %}
+                <div class="flex items-center space-x-4">
+                    <img src="{{ communication.image.url }}" alt="{{ communication.titre }}" class="w-24 h-24 object-cover rounded-lg">
+                    <div>
+                        <h3 class="text-xl font-semibold">{{ communication.titre }}</h3>
+                        <p class="text-gray-600">{{ communication.description }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-gray-500">Aucune communication disponible.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Script pour calculer la commission et le total -->
+<script>
+    const montantInput = document.getElementById('montant');
+    const commissionAmountElement = document.getElementById('commission-amount');
+    const totalAmountElement = document.getElementById('total-amount');
+    
+    const commission = parseFloat(document.getElementById('commission').value);
+
+    montantInput.addEventListener('input', function () {
+        const montant = parseFloat(montantInput.value) || 0;
+        const total = montant + commission;
+        
+        totalAmountElement.textContent = total.toFixed(2);  // Afficher le total avec deux décimales
+    });
+</script>
+
+{% endblock %}
