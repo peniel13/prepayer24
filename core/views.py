@@ -4,18 +4,23 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .models import StationPrepay, Communication, Payment
+from django.http import HttpResponseRedirect
 
 
 def signup(request):
     form = RegisterForm()
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Account created successfully")
-            return redirect("signup")
-        
-    context = {"form":form}
+
+            # Vérifie si 'next' est dans les paramètres de l'URL, sinon redirige vers la page d'accueil.
+            next_url = request.GET.get('next', '/')
+            return HttpResponseRedirect(next_url)
+
+    context = {"form": form}
     return render(request, "core/signup.html", context)
 
 def signin (request):
@@ -33,6 +38,23 @@ def signin (request):
 def signout(request):
     logout(request)
     return redirect("index")
+
+def some_view(request, slug):
+    # Vérifier si l'utilisateur est authentifié
+    if not request.user.is_authenticated:
+        # Rediriger ou afficher un message d'erreur
+        return redirect('signin')
+
+    # Sinon, récupérer l'utilisateur et continuer avec l'opération
+    user = request.user
+    station = get_object_or_404(StationPrepay, slug=slug)
+
+    # Exemple de création ou d'attribution de l'utilisateur à un panier
+    cart = Cart.objects.create(user=user, station=station)
+    cart.save()
+
+    # Autres opérations...
+
 
 @login_required(login_url="signin")
 def profile(request):
@@ -108,7 +130,7 @@ from .models import StationPrepay, Communication, Cart
 from django.contrib.auth.decorators import login_required
 from django.db.models.functions import TruncDate
 
-@login_required
+login_required
 def station_detail(request, slug):
     # Récupérer la station par son slug
     station = get_object_or_404(StationPrepay, slug=slug)

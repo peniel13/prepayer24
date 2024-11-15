@@ -43,11 +43,12 @@
                 <!-- Menu profil ou authentification -->
                 {% if user.is_authenticated %}
     <a href="{% url 'profile' %}" class="hover:text-indigo-200">Profil</a>
+    <a href="{% url 'signout' %}" class="hover:text-indigo-200">Déconnexion</a>
 {% else %}
     <a href="{% url 'signin' %}" class="hover:text-indigo-200">Se connecter</a>
     <a href="{% url 'signup' %}" class="hover:text-indigo-200">S'inscrire</a>
 {% endif %}
-                <a href="{% url 'signout' %}" class="hover:text-indigo-200">Déconnexion</a>
+               
             </div>
 
             <!-- Mobile menu toggle -->
@@ -65,14 +66,16 @@
             <a href="/" class="block">Home</a>
             <a href="{% url 'apropos' %}" class="block">À propos</a>
             <a href="{% url 'contact' %}" class="block">Contact</a>
+            
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}" class="block">Profil</a>
+                <a href="{% url 'signout' %}" class="block">Déconnexion</a>
             {% else %}
                 <a href="{% url 'signin' %}" class="block">Se connecter</a>
                 <a href="{% url 'signup' %}" class="block">S'inscrire</a>
             {% endif %}
-            <a href="{% url 'signout' %}" class="block">Déconnexion</a>
         </div>
+        
     </nav>
    
     {% if messages %}

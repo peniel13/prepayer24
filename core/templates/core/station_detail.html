@@ -51,7 +51,9 @@
             Vérifier votre identifiant pour cette station
         </a>
     </div>
-    <!-- Formulaire pour ajouter au panier -->
+
+    <!-- Affichage du formulaire de paiement si l'utilisateur est connecté -->
+    {% if user.is_authenticated %}
     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
         <h2 class="text-2xl font-semibold text-indigo-600">Faites votre paiement</h2>
         <form method="POST">
@@ -77,6 +79,15 @@
             <p class="text-red-600 mt-4">{{ error_message }}</p>
         {% endif %}
     </div>
+    {% else %}
+    <!-- Message pour les utilisateurs non connectés -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <p class="text-lg text-gray-700">
+            Vous devez être connecté pour effectuer un paiement. 
+            <a href="{% url 'signup' %}" class="text-indigo-600 hover:text-indigo-500 font-semibold">Enregistrez-vous ici</a> puis connectez-vous pour accéder à cette fonctionnalité.
+        </p>
+    </div>
+    {% endif %}
 
     <!-- Liste des Communications -->
     <div class="bg-white p-6 rounded-lg shadow-md">
